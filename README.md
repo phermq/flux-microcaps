@@ -2,10 +2,11 @@
 
 Order flow and liquidity states in US micro and nano caps.
 
-I started this project with a simple question: when a small cap moves on heavy volume, can you tell from the tape *what kind* of flow is behind it? Forums are full of stories about whales, campaigns and hidden sellers. I wanted to see how much of that can actually be measured, and how much is narrative.
-The short answer so far: a lot less than the stories suggest (not exactly big news, admittedly)
+I started this project with a question any newcomer to finance might ask. When a small cap moves on heavy volume, can you tell from the tape what kind of flow is behind it? Forums are full of stories about whales, campaigns and hidden sellers (Reddit gave me a few headaches). I wanted to see how much of that can actually be measured, and how much is narrative.
 
-This started as a personal project. I'm sharing it in case it's useful to anyone working on similar questions, and because I'd be glad to hear from people who know this better than I do.
+So far, the answer is a lot less than the stories suggest. Not exactly big news, admittedly.
+
+I built this **for myself**, but I'm sharing it in case it's useful to anyone working on similar questions, and because I'd be glad to hear from people who know this better than I do.
 
 ## What the data says about observability
 
