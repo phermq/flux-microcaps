@@ -3,8 +3,9 @@
 Order flow and liquidity states in US micro and nano caps.
 
 I started this project with a simple question: when a small cap moves on heavy volume, can you tell from the tape *what kind* of flow is behind it? Forums are full of stories about whales, campaigns and hidden sellers. I wanted to see how much of that can actually be measured, and how much is narrative.
+The short answer so far: a lot less than the stories suggest (not exactly big news, admittedly)
 
-The short answer so far: a lot less than the stories suggest.
+This started as a personal project. I'm sharing it in case it's useful to anyone working on similar questions, and because I'd be glad to hear from people who know this better than I do.
 
 ## What the data says about observability
 
@@ -18,6 +19,8 @@ This changed the design. Anything built only on the displayed book measures a mi
 
 ## How it is organised
 
+The structure comes from my training in mathematics, where you learn to define each object precisely before using it, state the assumptions, and never let a conclusion slip into its own definition.
+
 Four layers, each one only allowed to read the one below:
 
 1. **Primitives.** Objective measurements, each with a written definition, a unit and unit tests. No interpretation.
@@ -25,7 +28,7 @@ Four layers, each one only allowed to read the one below:
 3. **Interpretations.** Statements about participants ("probable structural seller") live here, always as probabilities with an invalidation condition. They never feed decisions directly.
 4. **Setups.** Locked until layers 1 and 2 are validated.
 
-Only layer 1 is built. Layer 2 is the next step, so there are no trading signals and no backtests here.
+Only layer 1 is built for the moment. Layer 2 is the next step, and I'm currently working on it (while doing my degree so I don't have much time) so there are no trading signals and no backtests here for now.
 
 ## The primitives
 
@@ -61,15 +64,15 @@ P-16 measures the path a price takes during the day. Path length on trade prices
 
 On 597 stock-days (793k trades, run by `invalidation_p16.py` on the licensed sample), the median ratio is 0.98, so P-16 stays. The tail is real though (1.73 at the 95th percentile), so the time-weighted spread is a mandatory covariate wherever P-16 is used.
 
-On the same sample, 77% of stock-days have an efficiency (net move / path) below 0.1 in absolute value: the intraday path is usually tens of times the net move. So "absorption" cannot be defined as low efficiency alone, since that is the normal case.
+On the same sample, 77% of stock-days have an efficiency (net move / path) below 0.1 in absolute value, meaning that the intraday path is usually tens of times the net move. So "absorption" cannot be defined as low efficiency alone, since that is the normal case.
 
 ## Universe and corpus
 
 The universe is rebuilt every month from May 2018 to December 2025, point-in-time: Nasdaq, NYSE and NYSE American primary listings, common stocks and ADSs, market cap under $300M, price at least $0.10, no activity filter.
 
-One trap: CRSP shares outstanding are dated at the end of the reporting period, not when the filing became public, which leaks future information (9 days at the median). So shares outstanding come from EDGAR, dated by filing date, wherever they are available (about 69% of the universe). In total the universe covers about 4 million stock-days.
+One trap: CRSP (the Center for Research in Security Prices, at the University of Chicago, which is a huge academic database of US stock history) shares outstanding are dated at the end of the reporting period, not when the filing became public, which leaks future information (9 days at the median) and so shares outstanding come from EDGAR, dated by filing date, wherever they are available (about 69% of the universe). In total the universe covers about 4 million stock-days.
 
-The case corpus is selected mechanically, by a rule written before looking at the data: a stock-day with relative volume of at least 5 opens a window from 10 trading days before to 20 after, and overlapping windows merge. This gives 37,615 episodes (37,972 with stock-specific halts added), stratified by period and price bucket.
+The case corpus is selected mechanically, by a rule written before looking at the data, to avoid cherry-picking episodes that happen to work. Any stock-day with relative volume of at least 5 opens a window from 10 trading days before to 20 after, and overlapping windows merge. This gives 37,615 episodes (37,972 with stock-specific halts added), stratified by period and price bucket.
 
 ## Repository layout
 
@@ -80,7 +83,7 @@ src/corpus/      episode corpus, audits, property tests
 src/references/  reference tables: exchanges, SIP sale conditions, NYSE early closes
 ```
 
-Module suffixes give the data source: `t1` is the SIP trade tape, `t3` the Nasdaq order book (ITCH), `t3q` the venue BBO. The code and comments are in French, which is the language I worked in.
+Module suffixes give the data source: `t1` is the SIP trade tape, `t3` the Nasdaq order book (ITCH), `t3q` the venue BBO. The code and comments are in French, which is the language I worked in but i will switch to English to make it easier to follow.
 
 ## Running it
 
