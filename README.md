@@ -97,5 +97,6 @@ The market data (CRSP via WRDS, Databento, and Massive, formerly Polygon, for th
 
 ## Contact
 
-Simon Chemama, first-year master's student (M1) in mathematics at Université Paris-Dauphine.
+My name is Simon Chemama and I'm a first-year master's student (M1) in mathematics at Université Paris-Dauphine. 
+Don't hesitate to contact me if you have questions or advice about my project.
 [LinkedIn](https://www.linkedin.com/in/simon-chemama-4abb103a7/)
